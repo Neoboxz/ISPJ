@@ -1,7 +1,7 @@
 export default function Gay() {
     return (
         <h1>
-            gay
+            lesbian
         </h1>
     )
 }

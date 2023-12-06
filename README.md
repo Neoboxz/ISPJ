@@ -31,13 +31,7 @@ cd ISPJ/frontend
 npm install
 ```
 
-### 5. Build the frontend server
-
-```bash
-npm run build
-```
-
-### 6. Start the frontend server
+### 5. Start the frontend server
 
 ```bash
 npm start
