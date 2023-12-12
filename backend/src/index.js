@@ -5,7 +5,7 @@ import cors from 'cors'
 import { serverTimestamp } from 'firebase/firestore'
 
 const app = express()
-const PORT = 5001
+const PORT = 5000
 
 app.use(express.json())
 app.use(cors())
@@ -15,13 +15,7 @@ app.listen(PORT, () => {
 })
 
 
+app.get('/api/home', async (req, res) => {
 
-app.post('/api/tytyuyu ', (req, res ) => {
-
-  res.send({ status: 'success', received: data })
-})
-
-app.get('/api/retrieve', async (req, res) => {
-
-  res.send({ status: 'success', data: documentList })
+  res.json({ message: chingchong })
 })
