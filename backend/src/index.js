@@ -1,6 +1,5 @@
 import express, { Express, Request, Response } from 'express'
 import { firestoreCommitUpdate, firestorePushUpdate, firestoreRetrieveCollection } from './src/firebase/firestore'
-import { randomUUID } from 'crypto'
 import cors from 'cors'
 import { serverTimestamp } from 'firebase/firestore'
 
@@ -15,7 +14,7 @@ app.listen(PORT, () => {
 })
 
 
-app.get('/api/home', async (req, res) => {
+app.get("/api/homeSS", (req, res) => {
 
-  res.json({ message: chingchong })
-})
+  res.json({ message: chingchong });
+});
