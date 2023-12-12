@@ -4,7 +4,9 @@
   "description": "made by pp0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server",
+    "dev":"nodemon server"
   },
   "author": "",
   "license": "ISC",
@@ -14,5 +16,8 @@
     "firebase": "^10.7.1",
     "firebase-admin": "^12.0.0",
     "node-forge": "^1.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
   }
 }

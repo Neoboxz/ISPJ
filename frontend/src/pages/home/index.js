@@ -1,20 +1,15 @@
-import { data } from "autoprefixer"
-import React, { useEffect , useState } from "react"
+import React,{useEffect , useState} from 'react'
+
+response = await fetch("http://localhost:5001/api/home")
+async function index() {
+
+  
 
 
-export default async function home(){
-    const [message , setMessage] = useState("loading")
-    useEffect(()=>{
-        fetch("http://localhost:5000/api/home").then(
-            response => response.json
-        ).then(
-            data => {
-                console.log(data)
-                setMessage(data.message)
-            }
-        )
-    }, [] )
-    return(
-        <div></div>
-    )
+
+  return (
+    <div>{response}</div>
+  )
 }
+
+export default index
