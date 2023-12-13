@@ -1,15 +1,21 @@
-import React,{useEffect , useState} from 'react'
-
-response = await fetch("http://localhost:5001/api/home")
-async function index() {
-
-  
-
-
+export default function Home() {
+  const asdf = async () => {
+      console.log('fetching api')
+      const yes = await fetch('http://localhost:5001/api/testing', {
+      method: 'GET'
+    })
+    console.log(yes)
+  }
 
   return (
-    <div>{response}</div>
+    <>
+    <button
+    onClick={() => {
+      asdf()
+    }}
+    >
+      asdf
+    </button>
+    </>
   )
 }
-
-export default index

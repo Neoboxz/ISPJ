@@ -1,16 +1,38 @@
-const express = require("express")
-const app = express()
-const PORT = 5001 ; 5000
-const cors = require("cors")
+const express = require('express')
+const cors = require('cors')
+const path = require('path')
 var forge = require('node-forge');
+
+const app = express()
+const PORT = 5001
+
+app.use(express.json())
+app.use(cors())
 
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`)
 })
 
 
-app.get("/api/home", (req, res) => {
+app.get("/api/home", async (req, res) => {
+  // var md = forge.md.sha256.create();
+  // md.update('testtest');
+  // res.send(md.digest().toHex());
+  res.send('bruh');
+})
+
+app.get("/api/testing", async (req, res) => {
+  res.send('bruh');
+})
+
+app.post("/api/demo", async (req, res) => {
+  const data = req.body
+
+  const plainText = data.myinput
+ 
+
+  console.log(plainText)
   var md = forge.md.sha256.create();
-  md.update('The quick brown fox jumps over the lazy dog');
-  res.send(md.digest().toHex());
+  md.update(plainText);
+  res.send(md.digest().toHex());  
 })
