@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 
+
 export default function SubmitDocument() {
   const [file, setFile] = useState(null);
+  const [id, setId] = useState(0);
+
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
   };
+ 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    console.log(file)
     const formData = new FormData();
     formData.append('file', file);
-    
 
     // API endpoint URL
     const response = await fetch("http://localhost:5001/api/document_sub", {
@@ -21,7 +24,8 @@ export default function SubmitDocument() {
         "Content-Type": "application/json",
       },
     body: JSON.stringify({
-        input : file
+        input : formData,
+        id : id.toString()
         }),
     });
 
@@ -40,6 +44,7 @@ export default function SubmitDocument() {
     <form onSubmit={handleSubmit}>
       <label htmlFor="file">Select Document:</label>
       <input type="file" id="file" name="file" required onChange={handleFileChange} />
+      <input type="text" id="id" name="id" required onChange={(e)=>setId(e.target.value)} />
       <button type="submit">Submit</button>
     </form>
   );
