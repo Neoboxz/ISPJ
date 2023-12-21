@@ -5,6 +5,8 @@ import CryptoJS from 'crypto-js'
 dotenv.config()
 const privateKey = process.env.privateKey
 const publicKey = process.env.publicKey
+const key = "0f d7 4c e7 f4 0a 5e 86 cd 84 75 d9 7d 6b c2 37 "
+
 
 //hashing function
 export const hashing =(msg) => {
@@ -16,13 +18,13 @@ export const hashing =(msg) => {
 }
 
 export const encryption_AES = async(msg) =>{
-    var encrypted = CryptoJS.AES.encrypt(JSON.stringify(msg) , "testestt").toString()
-    return encrypted
+    var ciphertext = CryptoJS.AES.encrypt(JSON.stringify(msg), key).toString();
+    return ciphertext
 
 }
 
-export const decrpytion_AES = async(encrypted)=>{
-    var bytes  = CryptoJS.AES.decrypt(encrypted, "testestt");
-    var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8))   
+export const decrpytion_AES = async(ciphertext)=>{
+    var bytes  = CryptoJS.AES.decrypt(ciphertext, key);
+    var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
     return decryptedData
 }

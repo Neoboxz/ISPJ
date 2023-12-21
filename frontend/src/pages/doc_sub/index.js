@@ -18,12 +18,12 @@ export default function SubmitDocument() {
 
     const formData = new FormData()
     formData.append('file', file)
-    // add if to formData
+    // add id to formData
     formData.append('id', id.toString())
 
     try {
       // TODO: rmb to change the api endpoint
-      const response = await fetch('http://localhost:5001/api/document_sub2', {
+      const response = await fetch('http://localhost:5001/api/document_sub', {
         method: 'POST',
         // over here dont set headers
         // everything put inside formData body
