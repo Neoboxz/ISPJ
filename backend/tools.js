@@ -5,7 +5,7 @@ import CryptoJS from 'crypto-js'
 dotenv.config()
 const privateKey = process.env.privateKey
 const publicKey = process.env.publicKey
-const key = "0f d7 4c e7 f4 0a 5e 86 cd 84 75 d9 7d 6b c2 37 "
+const key =  process.env.key
 
 
 //hashing function
