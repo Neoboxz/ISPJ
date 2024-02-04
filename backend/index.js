@@ -81,7 +81,7 @@ app.post('/api/document_sub2', upload.single('file'), async (req, res) => {
 
 app.get('/api/2', async (req, res) => {
   const document = getDocuments_patients("111")
-  const health_doc = document.password
+  const health_doc = document.health_document
   console.log(health_doc)
   const pray = await decrpytion_AES(health_doc)
   console.log(pray)

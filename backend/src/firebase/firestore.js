@@ -2,7 +2,7 @@ import { database } from './firebase.js'
 import { addDoc, collection, doc, setDoc , serverTimestamp , updateDoc, documentId , getDoc} from "firebase/firestore"; 
 
 export const patientDb = collection(database, 'patient')
-export const docDb = collection(database, 'doctor')
+
 
 //account creation 
 export const patient_Acc_Creation = async(
@@ -36,15 +36,19 @@ export const getDocumentRef =async (table , id)=>{
 
 //https://www.jsowl.com/get-a-document-using-its-id-from-a-collection-in-firestore/
 export const getDocuments_patients = async(paitent_id)=>{
-    var list = []
-    const docref = await getDocumentRef("patient" , paitent_id)
-    const docSnap = await getDoc(docref)
-    if (docSnap.exists()) {
-        console.log(docSnap.data());
-        return docSnap.data()
-      }
-      else {
-        console.log("No such document!");
-      }
+    try {
+        // Get a reference to the subcollection
+        const subcollectionRef = firestore.collection(patientDb).doc(paitent_id).collection(paitent_id);
     
-}
+        // Fetch data from the subcollection
+        const querySnapshot = await subcollectionRef.get();
+    
+        // Extract data from the query snapshot
+        const subcollectionData = querySnapshot.docs.map(doc => doc.data());
+    
+        console.log(subcollectionData);
+      } catch (error) {
+        console.error('Error fetching data from subcollection:', error.message);
+      }
+    }
+      
