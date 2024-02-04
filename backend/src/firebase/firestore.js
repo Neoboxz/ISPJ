@@ -12,9 +12,6 @@ export const patient_Acc_Creation = async(
     salt,
     facial_id,
     health_document ,
-    classification ,
-    id_classification,
-    card,
     time
        ) =>{
     await setDoc(doc(database , "patient", id ),{
@@ -22,8 +19,7 @@ export const patient_Acc_Creation = async(
         password : password,
         password_salt: salt,
         facial_id : facial_id,
-        health_document : {document: health_document , classification: classification },
-        id_card: {id_card : card , classification: id_classification},
+        health_document : health_document ,
         start_date_timestamp : serverTimestamp(),
         lastupdate_time: time
     });
@@ -37,11 +33,6 @@ export const getDocumentRef =async (table , id)=>{
 }
 
 
-export const doc_Acc_Creation = async() =>{
-    await addDoc(docDb,{
-        //to be continue (ask krishnaa for feilds)
-    })
-}
 
 //https://www.jsowl.com/get-a-document-using-its-id-from-a-collection-in-firestore/
 export const getDocuments_patients = async(paitent_id)=>{
