@@ -24,7 +24,7 @@ export const encryption_AES = async(msg) =>{
 }
 
 export const decrpytion_AES = async(ciphertext)=>{
-    // var bytes  = CryptoJS.AES.decrypt(ciphertext, key);
-    // var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-    // return decryptedData
+    var bytes  = CryptoJS.AES.decrypt(ciphertext, key);
+    var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+    return decryptedData
 }

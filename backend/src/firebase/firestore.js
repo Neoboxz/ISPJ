@@ -1,5 +1,5 @@
 import { database } from './firebase.js'
-import { addDoc, collection, doc, setDoc , serverTimestamp , updateDoc, documentId , getDoc} from "firebase/firestore"; 
+import { addDoc, collection, doc, setDoc , serverTimestamp , updateDoc} from "firebase/firestore"; 
 
 export const patientDb = collection(database, 'patient')
 export const docDb = collection(database, 'doctor')
@@ -43,17 +43,7 @@ export const doc_Acc_Creation = async() =>{
     })
 }
 
-//https://www.jsowl.com/get-a-document-using-its-id-from-a-collection-in-firestore/
-export const getDocuments_patients = async(paitent_id)=>{
-    var list = []
-    const docref = await getDocumentRef("patient" , paitent_id)
-    const docSnap = await getDoc(docref)
-    if (docSnap.exists()) {
-        console.log(docSnap.data());
-        return docSnap.data()
-      }
-      else {
-        console.log("No such document!");
-      }
+
+export const getDocuments = async()=>{
     
 }
