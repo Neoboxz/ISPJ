@@ -55,10 +55,11 @@ app.post('/api/document_sub', upload.single('file'), async (req, res) => {
   const doc = req.file
   var userId = data.id
   console.log(userId, doc)
-  const encrypted = await encryption_AES(doc)
+  console.log(doc)
+  const encrypted = await encryption_AES(doc.buffer)
   const ref = await getDocumentRef('patient', '111')
   await updateDoc(ref, {
-    'health_document.document': encrypted,
+    'health_document': encrypted,
     'lastupdate_time': serverTimestamp(),
   })
 

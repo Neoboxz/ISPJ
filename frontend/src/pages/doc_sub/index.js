@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 export default function SubmitDocument() {
   const [file, setFile] = useState(null)
@@ -42,6 +42,7 @@ export default function SubmitDocument() {
   }
 
   return (
+    
     <form onSubmit={handleSubmit}>
       <label htmlFor='file'>Select Document:</label>
       <input
@@ -59,6 +60,14 @@ export default function SubmitDocument() {
         onChange={(e) => setId(e.target.value)}
       />
       <button type='submit'>Submit</button>
+      <iframe
+      src ={file}
+      />
     </form>
+    
+    
+
+    
   )
+  
 }
