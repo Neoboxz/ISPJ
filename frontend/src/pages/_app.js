@@ -1,10 +1,10 @@
 import '@/styles/globals.css'
-import {AuthProvider} from '../AuthContext'
+import { AuthProvider } from '../AuthContext'
 
 export default function App({ Component, pageProps }) {
-  return 
-  <AuthProvider>
-    <Component {...pageProps} />
-
-  </AuthProvider>
+  return (
+    <AuthProvider>
+      <Component {...pageProps} />
+    </AuthProvider>
+  )
 }
