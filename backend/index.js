@@ -6,7 +6,6 @@ import {
   patientDb,
   patient_Acc_Creation,
   getDocumentRef,
-  getDocuments_patients,
 } from './src/firebase/firestore.js'
 import { hashing, encryption_AES, decrpytion_AES } from './tools.js'
 import dotenv from 'dotenv'
@@ -49,7 +48,7 @@ app.get('/api/testing', async (req, res) => {
   const hash_salt = hashing('yes')
   res.send(hash_salt[0] + ' ' + hash_salt[1])
 })
-//pushing the encrypted document into firebase
+
 app.post('/api/document_sub', upload.single('file'), async (req, res) => {
   const data = req.body
   const doc = req.file
@@ -59,8 +58,8 @@ app.post('/api/document_sub', upload.single('file'), async (req, res) => {
   const encrypted = await encryption_AES(doc.buffer)
   const ref = await getDocumentRef('patient', '111')
   await updateDoc(ref, {
-    'health_document': encrypted,
-    'lastupdate_time': serverTimestamp(),
+    health_document: encrypted,
+    lastupdate_time: serverTimestamp(),
   })
 
   res.send('ok')
@@ -81,7 +80,7 @@ app.post('/api/document_sub2', upload.single('file'), async (req, res) => {
 })
 
 app.get('/api/2', async (req, res) => {
-  const document = getDocuments_patients("111")
+  const document = getDocuments_patients('111')
   const health_doc = document.health_document
   console.log(health_doc)
   const pray = await decrpytion_AES(health_doc)
