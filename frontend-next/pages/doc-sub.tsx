@@ -10,6 +10,7 @@ import {
   firestoreFieldExists,
   firestorePushUpdates,
 } from '../src/firebase/firestore'
+import { serverTimestamp } from "firebase/firestore";
 
 export default function SubmitDocument() {
   const [file, setFile] = useState<File | null>(null)
@@ -45,20 +46,18 @@ export default function SubmitDocument() {
       cryptoGenerateKey(),
       cryptoGenerateIv(),
     )
-
+  
     const encryptedString = await cryptoBlobToBase64(encryptedBlob)
 
     // upload the file to firestore
-    firestoreCommitUpdate('patient/111', 'health_document', encryptedString)
+    firestoreCommitUpdate(`patient/${id}`, 'health_document', encryptedString)
 
     // add in other updates
-    firestoreCommitUpdate('patient/111', 'id', id)
-    firestoreCommitUpdate(
-      'patient/111',
-      'last_updated',
-      new Date().toLocaleString(),
-    )
-
+    firestoreCommitUpdate(`patient/${id}`, 'id', id)
+    firestoreCommitUpdate(`patient/${id}`, 'last_Accessed', serverTimestamp() )
+    firestoreCommitUpdate(`patient/${id}`, 'last_Updated', serverTimestamp() )
+    firestoreCommitUpdate(`patient/${id}`, 'Creation_Time' , serverTimestamp() )
+    alert("Documment uploaded sucessfully")
     await firestorePushUpdates()
   }
 

@@ -6,6 +6,12 @@ import {
   cryptoGenerateKey,
 } from '../src/crypto'
 import { firestoreRetrieveDocumentField } from '../src/firebase/firestore'
+import {
+  firestoreCommitUpdate,
+  firestoreFieldExists,
+  firestorePushUpdates,
+} from '../src/firebase/firestore'
+import { serverTimestamp } from "firebase/firestore";
 
 export default function DocRetrive() {
   const [id, setId] = useState<number | null>(null)
@@ -16,7 +22,8 @@ export default function DocRetrive() {
         `patient/${id}`,
         'health_document',
       )
-
+      firestoreCommitUpdate(`patient/${id}`, 'last_Accessed', serverTimestamp() )
+      await firestorePushUpdates()
       const encryptedBlob = await cryptoBase64ToBlob(healthDocumentBase64)
 
       const decryptedBlob = await cryptoDecryptBlob(
