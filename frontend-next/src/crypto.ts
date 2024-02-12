@@ -9,27 +9,26 @@ export const cryptoCreateHash =(
 }
 
 
-export const cryptoGenerateKey = (): Buffer => {
-  // return new Promise((resolve, reject) => {
-  //   const salt = randomBytes(16)
-  //   const iterations = 100000
-  //   const keyLength = 32
-  //   const digest = 'sha256'
+export const cryptoGenerateKey = (): Promise<Buffer> => {
+   return new Promise((resolve, reject) => {
+     const salt = randomBytes(16).toString("hex")
+     const iterations = 100000
+     const keyLength = 32
+     const digest = 'sha256'
+     const password =  randomBytes(16).toString("hex")
 
-  //   pbkdf2(password, salt, iterations, keyLength, digest, (err, derivedKey) => {
-  //     if (err) reject(err)
-  //     else resolve(derivedKey)
-  //   })
-  // })
+     pbkdf2(password, salt, iterations, keyLength, digest, (err, derivedKey) => {
+       if (err) reject(err)
+       else resolve(derivedKey)
+     })
+   })
 
-  return Buffer.from(
-    "03b4e54bd1b23ee42056b20843524192c9d90d19130c421bed9841f515d3638d",
-    "hex"
-  );
+ 
 };
 
 export const cryptoGenerateIv = (): Buffer => {
-  return Buffer.from("cd629e72ba0628fc10edfc8001291c03", "hex");
+  const iv = randomBytes(16)
+  return  iv 
 };
 
 export const cryptoEncryptBlob = (

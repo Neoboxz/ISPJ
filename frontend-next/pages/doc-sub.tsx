@@ -44,12 +44,13 @@ export default function SubmitDocument() {
     const passwordHash =  cryptoCreateHash(
       pass
     )
-
+    const iv = cryptoGenerateIv()
+    const key = await cryptoGenerateKey()
     // encrypt the file
     const encryptedBlob = await cryptoEncryptBlob(
       file,
-      cryptoGenerateKey(),
-      cryptoGenerateIv(),
+      key,
+      iv,
     )
   
     const encryptedString = await cryptoBlobToBase64(encryptedBlob)
@@ -62,6 +63,8 @@ export default function SubmitDocument() {
     firestoreCommitUpdate(`patient/${id}`, 'last_Accessed', serverTimestamp() )
     firestoreCommitUpdate(`patient/${id}`, 'last_Updated', serverTimestamp() )
     firestoreCommitUpdate(`patient/${id}`, 'Creation_Time' , serverTimestamp() )
+    firestoreCommitUpdate(`patient/${id}`, 'iv' , iv.toString('hex') )
+    firestoreCommitUpdate(`patient/${id}`, 'key' , key.toString('hex') )
     firestoreCommitUpdate(`patient/${id}`, 'password' , passwordHash )
     alert("Documment uploaded sucessfully")
     await firestorePushUpdates()
