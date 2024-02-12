@@ -4,6 +4,7 @@ import {
   cryptoEncryptBlob,
   cryptoGenerateIv,
   cryptoGenerateKey,
+  cryptoCreateHash,
 } from '../src/crypto'
 import {
   firestoreCommitUpdate,
@@ -15,6 +16,7 @@ import { serverTimestamp } from "firebase/firestore";
 export default function SubmitDocument() {
   const [file, setFile] = useState<File | null>(null)
   const [id, setId] = useState<number>(0)
+  const [pass, setPass] = useState<string>(null)
 
   const handleFileChange = (event: any) => {
     setFile(event.target.files[0])
@@ -39,6 +41,9 @@ export default function SubmitDocument() {
       alert('ID already exists')
       return
     }
+    const passwordHash =  cryptoCreateHash(
+      pass
+    )
 
     // encrypt the file
     const encryptedBlob = await cryptoEncryptBlob(
@@ -57,6 +62,7 @@ export default function SubmitDocument() {
     firestoreCommitUpdate(`patient/${id}`, 'last_Accessed', serverTimestamp() )
     firestoreCommitUpdate(`patient/${id}`, 'last_Updated', serverTimestamp() )
     firestoreCommitUpdate(`patient/${id}`, 'Creation_Time' , serverTimestamp() )
+    firestoreCommitUpdate(`patient/${id}`, 'password' , passwordHash )
     alert("Documment uploaded sucessfully")
     await firestorePushUpdates()
   }
@@ -71,6 +77,7 @@ export default function SubmitDocument() {
         required
         onChange={handleFileChange}
       />
+      <label >Enter ID:</label>
       <input
         type='number'
         id='id'
@@ -78,6 +85,16 @@ export default function SubmitDocument() {
         required
         onChange={(e) => setId(Number(e.target.value))}
       />
+      <label >Enter password:
+
+       <input
+        type='password'
+        id='pass'
+        name='pass'
+        required
+        onChange={(e) => setPass(String(e.target.value))}
+      />
+      </label>
       <button type='submit'>Submit</button>
     </form>
   )

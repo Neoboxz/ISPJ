@@ -1,4 +1,13 @@
-import { createCipheriv, createDecipheriv, pbkdf2, randomBytes } from "crypto";
+import { createCipheriv, createDecipheriv, pbkdf2, randomBytes , createHash} from "crypto";
+
+export const cryptoCreateHash =(
+  password
+) => {
+  const hash = createHash('sha256')
+  hash.update(password)
+  return hash.digest('hex')
+}
+
 
 export const cryptoGenerateKey = (): Buffer => {
   // return new Promise((resolve, reject) => {
