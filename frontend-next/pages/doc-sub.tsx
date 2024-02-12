@@ -5,6 +5,8 @@ import {
   cryptoGenerateIv,
   cryptoGenerateKey,
   cryptoCreateHash,
+  cryptoEncryptKey,
+  cryptoDecryptKey
 } from '../src/crypto'
 import {
   firestoreCommitUpdate,
@@ -55,6 +57,13 @@ export default function SubmitDocument() {
   
     const encryptedString = await cryptoBlobToBase64(encryptedBlob)
 
+    const encryptedKey = await cryptoEncryptKey(pass , iv , key)
+    const decryptedKey = await cryptoDecryptKey(pass , iv , encryptedKey)
+    console.log("Key " ,key.toString("hex"))
+    
+    console.log("decrypted Key ",decryptedKey)
+
+
     // upload the file to firestore
     firestoreCommitUpdate(`patient/${id}`, 'health_document', encryptedString)
 
@@ -64,7 +73,7 @@ export default function SubmitDocument() {
     firestoreCommitUpdate(`patient/${id}`, 'last_Updated', serverTimestamp() )
     firestoreCommitUpdate(`patient/${id}`, 'Creation_Time' , serverTimestamp() )
     firestoreCommitUpdate(`patient/${id}`, 'iv' , iv.toString('hex') )
-    firestoreCommitUpdate(`patient/${id}`, 'key' , key.toString('hex') )
+    firestoreCommitUpdate(`patient/${id}`, 'key' , encryptedKey )
     firestoreCommitUpdate(`patient/${id}`, 'password' , passwordHash )
     alert("Documment uploaded sucessfully")
     await firestorePushUpdates()
