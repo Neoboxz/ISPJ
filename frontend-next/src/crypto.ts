@@ -1,5 +1,6 @@
 import { createCipheriv, createDecipheriv, pbkdf2, randomBytes , createHash } from "crypto";
 
+//for password hashing and to check hash 
 export const cryptoCreateHash =(
   password
 ) => {
@@ -8,7 +9,7 @@ export const cryptoCreateHash =(
   return hash.digest('hex')
 }
 
-
+//Generating random key for PDF encryption
 export const cryptoGenerateKey = (): Promise<Buffer> => {
    return new Promise((resolve, reject) => {
      const salt = randomBytes(16).toString("hex")
@@ -25,6 +26,7 @@ export const cryptoGenerateKey = (): Promise<Buffer> => {
 
  
 };
+//For password encryption of encryption Key for storing
 export const cryptoGenerateKeyFromPasswordHash = (pass): Promise<Buffer> => {
   return new Promise((resolve, reject) => {
     const salt = "6f2c3fe61ec4aa50d9a0051200fa6317"
@@ -38,6 +40,7 @@ export const cryptoGenerateKeyFromPasswordHash = (pass): Promise<Buffer> => {
       else resolve(derivedKey)
     })
   })};
+//Generate IV
 export const cryptoGenerateIv = (): Buffer => {
   const iv = randomBytes(16)
   
@@ -45,19 +48,22 @@ export const cryptoGenerateIv = (): Buffer => {
 };
 
 
-
+//Encrypts Key
 export const  cryptoEncryptKey =async(
 key,
 iv,
 fileKey
 )=>{
   const derivedKey = await cryptoGenerateKeyFromPasswordHash(key)
-  console.log(derivedKey.toString("hex"))
+  console.log(derivedKey.toString("hex") , iv.toString("hex") )
   const cipher = createCipheriv("aes-256-cbc" , derivedKey , iv)
   let encrypted = cipher.update(fileKey , "utf-8" , "hex")
   encrypted += cipher.final("hex")
   return encrypted
 }
+
+
+//Decrypts key
 export const cryptoDecryptKey = async(
 key,
 iv,
@@ -65,10 +71,10 @@ encryptedKey,
 
 )=>{
   const derivedKey = await cryptoGenerateKeyFromPasswordHash(key)
-  console.log(derivedKey.toString("hex"))
+  console.log(derivedKey.toString("hex") , iv.toString("hex"), " ", encryptedKey)
   const decipher = createDecipheriv("aes-256-cbc" , derivedKey , iv)
-  let decrypted = decipher.update(encryptedKey, 'hex', 'utf8');
-    decrypted += decipher.final('utf8');
+  let decrypted = decipher.update(encryptedKey, 'hex', 'hex');
+    decrypted += decipher.final('hex');
     return decrypted;
 }
 

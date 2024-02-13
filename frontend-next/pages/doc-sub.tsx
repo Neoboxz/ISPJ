@@ -60,7 +60,7 @@ export default function SubmitDocument() {
     const encryptedKey = await cryptoEncryptKey(pass , iv , key)
     const decryptedKey = await cryptoDecryptKey(pass , iv , encryptedKey)
     console.log("Key " ,key.toString("hex"))
-    
+    console.log("encrypted Key ",encryptedKey)
     console.log("decrypted Key ",decryptedKey)
 
 
@@ -108,6 +108,8 @@ export default function SubmitDocument() {
       />
       </label>
       <button type='submit'>Submit</button>
+      <br />
+      <a href="/doc-retrieve"> to document retrieve</a>
     </form>
   )
 }
