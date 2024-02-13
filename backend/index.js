@@ -1,22 +1,17 @@
 import express, { json } from 'express'
 import cors from 'cors'
-import path from 'path'
-import forge from 'node-forge'
 import {
   patientDb,
   patient_Acc_Creation,
   getDocumentRef,
 } from './src/firebase/firestore.js'
-import { hashing, encryption_AES, decrpytion_AES } from './tools.js'
 import dotenv from 'dotenv'
 import { serverTimestamp, updateDoc } from 'firebase/firestore'
 import { upload } from './src/multer/multer.js'
 
 dotenv.config()
-const privateKey = process.env.privateKey
-const publicKey = process.env.publicKey
 const app = express()
-const PORT = 5001
+const PORT = 3001
 
 app.use(json())
 app.use(cors())
@@ -52,18 +47,17 @@ app.get('/api/testing', async (req, res) => {
 app.post('/api/document_sub', upload.single('file'), async (req, res) => {
   const data = req.body
   const doc = req.file
-  var userId = data.id
-  console.log(userId, doc)
-  console.log(doc)
-  const encrypted = await encryption_AES(doc.buffer)
-  const ref = await getDocumentRef('patient', '111')
-  await updateDoc(ref, {
-    health_document: encrypted,
-    lastupdate_time: serverTimestamp(),
+  const sdk = require('api')('@virustotal/v3.0#40nj53llc655dro');
+
+  sdk.postFiles({
+    file: doc
+  }, {'x-apikey': '55eb7e6ec97035ab8de9968fc55050b55d42941c99f998e56513d7d646a13f95'})
+    .then(({ data }) => console.log(data))
+    .catch(err => console.error(err));
+    res.send('ok')
   })
 
-  res.send('ok')
-})
+
 
 // new api for document submission
 app.post('/api/document_sub2', upload.single('file'), async (req, res) => {
